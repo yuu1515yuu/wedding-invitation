@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVITATION - NEW KAWAII WEDDING</title>
+    <style>
+        /* 全体のスタイル設定 */
+        :root {
+            --primary-pink: #ff69b4;
+            --bg-pink: #fff0f5;
+            --accent-mint: #e6f7f4;
+            --accent-purple: #f3e6f7;
+            --text-dark: #4a4a4a;
+            --border-color: #ffb6c1;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-pink);
+            background-image: radial-gradient(#ffb6c1 8%, transparent 8%);
+            background-size: 24px 24px; /* 背景をうっすらドット柄に */
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            border: 3px solid var(--primary-pink);
+            border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        /* ヘッダー・タイトル */
+        .scroll-down {
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #aaa;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 36px;
+            color: var(--primary-pink);
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px var(--accent-purple);
+        }
+
+        .header-deco {
+            font-size: 20px;
+            color: var(--primary-pink);
+            margin-top: 5px;
+        }
+
+        /* フォーム共通スタイル */
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .label-container {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .label-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .required-badge {
+            background-color: transparent;
+            color: var(--primary-pink);
+            border: 1px dashed var(--primary-pink);
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .sub-text {
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+
+        /* 入力フィード */
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.2);
+        }
+
+        /* 2列並び（お名前・連名など） */
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .flex-row input {
+            flex: 1;
+        }
+
+        /* ラジオボタン（出席・欠席 / 新郎・新婦ゲスト） */
+        .radio-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .radio-label {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+
+        .radio-button {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* 出席 / 新郎側が選ばれた時（ピンク系） */
+        .radio-label input[type="radio"]:checked + .btn-pink {
+            background-color: #ffe4e1;
+            border-color: var(--primary-pink);
+            color: var(--primary-pink);
+        }
+
+        /* 欠席 / 新婦側が選ばれた時（ミント系に変えてアクセントに） */
+        .radio-label input[type="radio"]:checked + .btn-mint {
+            background-color: var(--accent-mint);
+            border-color: #4db6ac;
+            color: #00796b;
+        }
+
+        /* アレルギー入力（背景ドット） */
+        .textarea-dots {
+            background-image: radial-gradient(#e0e0e0 10%, transparent 10%);
+            background-size: 16px 16px;
+            text-align: left !important;
+        }
+
+        /* お祝い画像アップロードエリア */
+        .upload-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .upload-box {
+            flex: 1;
+            border: 2px dashed var(--border-color);
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #fafafa;
+            transition: background 0.3s;
+        }
+
+        .upload-box:hover {
+            background: var(--bg-pink);
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .upload-text {
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .upload-note {
+            font-size: 10px;
+            color: #777;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* 送信ボタン */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: #d3d3d3; /* 元画像に合わせたグレー、変更時は var(--primary-pink) などに */
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: not-allowed;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .submit-note {
+            text-align: center;
+            color: var(--primary-pink);
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 💡 CSSファイルを通さず、HTMLに直接スタイルを書いて強制表示させます -->
+<div style="
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    border: 10px solid transparent;
+    border-image: linear-gradient(to top, #ff4b4b, #ffa500, #fff000, #98fb98, #87ceeb, #ffb7c5, #e0b0ff) 1;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+"></div>
+
+<!-- 画面全体を囲うネオンフレーム（fixedなので場所はどこでも機能します） -->
+<div class="neon-frame"></div>
+
+<!-- フォームの本体コンテナ -->
+<div class="container-wrapper" style="display: flex; justify-content: center; padding: 20px 10px; background-color: #fff0f5; background-image: radial-gradient(#ffb6c1 8%, transparent 8%); background-size: 24px 24px;">
+    
+    <div class="form-container" style="max-width: 480px; width: 100%; background: #ffffff; border: 3px solid #ff69b4; border-radius: 30px; box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15); padding: 30px 20px; box-sizing: border-box; font-family: sans-serif; color: #4a4a4a;">
+        
+        <div style="text-align: center; font-size: 11px; letter-spacing: 2px; color: #aaa; margin-bottom: 10px;">SCROLL DOWN</div>
+
+    <!-- ヘッダー -->
+    <div class="header">
+        <h1>INVITATION</h1>
+        <div class="header-deco">✧･ﾟ: *✧･ﾟ:*</div>
+    </div>
+
+    <form onsubmit="return false;">
+        
+        <!-- ご出欠 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">ご出欠</span><span class="required-badge">必須</span>
+            </div>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="attendance" value="出席">
+                    <span class="radio-button btn-pink">● ご出席</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="attendance" value="欠席">
+                    <span class="radio-button btn-mint">● ご欠席</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- お名前 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">お名前</span><span class="required-badge">必須</span>
+            </div>
+            <div class="flex-row">
+                <input type="text" placeholder="姓" required>
+                <input type="text" placeholder="名" required>
+            </div>
+        </div>
+
+        <!-- ご連名 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">ご連名</span>
+            </div>
+            <div class="sub-text">※4名までご入力いただけます</div>
+            
+            <div class="flex-row">
+                <input type="text" placeholder="連名1">
+                <input type="text" placeholder="連名1 ふりがな">
+            </div>
+            <div class="flex-row">
+                <input type="text" placeholder="連名2">
+                <input type="text" placeholder="連名2 ふりがな">
+            </div>
+            <div class="flex-row">
+                <input type="text" placeholder="連名3">
+                <input type="text" placeholder="連名3 ふりがな">
+            </div>
+            <div class="flex-row">
+                <input type="text" placeholder="連名4">
+                <input type="text" placeholder="連名4 ふりがな">
+            </div>
+        </div>
+
+        <!-- いずれかをお選びください -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">いずれかをお選びください</span><span class="required-badge">必須</span>
+            </div>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="guest_type" value="新郎ゲスト" required>
+                    <span class="radio-button btn-pink">● 新郎ゲスト</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="guest_type" value="新婦ゲスト">
+                    <span class="radio-button btn-mint">● 新婦ゲスト</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 電話番号 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">電話番号</span><span class="required-badge">必須</span>
+            </div>
+            <input type="tel" placeholder="09012345678" required>
+        </div>
+
+        <!-- メールアドレス -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">メールアドレス</span><span class="required-badge">必須</span>
+            </div>
+            <input type="email" placeholder="mail@mail.com" required>
+        </div>
+
+        <!-- 郵便番号 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">郵便番号</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: bold;">〒</span>
+                <input type="text" placeholder="500000" style="text-align: left;">
+            </div>
+        </div>
+
+        <!-- ご住所 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">ご住所</span>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <select>
+                    <option value="">都道府県</option>
+                    <option value="東京都">東京都</option>
+                    <!-- 必要に応じて他の都道府県を追加してください -->
+                </select>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <input type="text" placeholder="市区町村や番地" style="text-align: left;">
+            </div>
+            <div>
+                <input type="text" placeholder="マンションや建物名など" style="text-align: left;">
+            </div>
+        </div>
+
+        <!-- アレルギーについて -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">アレルギーについて</span>
+            </div>
+            <div class="sub-text">アレルギーなど食べられないものがございましたら<br>ご遠慮なくお書き添えください</div>
+            <textarea rows="5" class="textarea-dots"></textarea>
+        </div>
+
+        <!-- お祝い画像 -->
+        <div class="form-group">
+            <div class="label-container">
+                <span class="label-text">お祝い画像</span>
+            </div>
+            <div class="upload-container">
+                <div class="upload-box">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">画像を<br>アップロード</div>
+                </div>
+                <div class="upload-box">
+                    <div class="upload-icon">🎨</div>
+                    <div class="upload-text">テンプレート<br>画像から選ぶ</div>
+                </div>
+            </div>
+            <div class="upload-note">
+                ※10枚までアップロード可能<br>
+                ※対応している画像の種類：JPG形式、PNG形式、GIF形式<br>
+                （ファイルサイズ：1ファイル15MBまで）
+            </div>
+        </div>
+
+        <!-- 送信ボタンエリア -->
+        <button type="button" class="submit-btn">招待状に回答する</button>
+        <div class="submit-note">※サンプルデザインのため、送信できません。</div>
+
+    </form>
+</div>
+<!-- 選択時のインタラクション用スタイル（インラインで書けない疑似要素などをカバー） -->
+<style>
+    #att-yes:checked + .radio-btn, #guest-groom:checked + .radio-btn {
+        background-color: #ffe4e1 !important;
+        border-color: #ff69b4 !important;
+        color: #ff69b4 !important;
+    }
+    #att-no:checked + .radio-btn-mint, #guest-bride:checked + .radio-btn-mint {
+        background-color: #e6f7f4 !important;
+        border-color: #4db6ac !important;
+        color: #00796b !important;
+    }
+    .form-container input:focus, .form-container select:focus, .form-container textarea:focus {
+        border-color: #ff69b4 !important;
+        box-shadow: 0 0 8px rgba(255, 105, 180, 0.2);
+    }
+</style>
+
+</body>
+</html>
