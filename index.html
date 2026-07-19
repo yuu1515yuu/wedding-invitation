@@ -15,33 +15,47 @@
             --border-color: #ffb6c1;
         }
 
-        body {
+       body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
             background-color: var(--bg-pink);
             background-image: radial-gradient(#ffb6c1 8%, transparent 8%);
             background-size: 24px 24px;
             color: var(--text-dark);
             margin: 0;
-            padding: 20px 10px;
+            padding: 0; /* 余白は内側で制御するため0にします */
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh; /* 画面全体の高さを固定 */
+            height: 100dvh; /* スマホのバーを考慮した高さ */
+            overflow: hidden; /* 画面全体はスクロールさせない */
         }
 
         .container-wrapper {
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            /* 虹色の外枠（10px）の内側に収まるように、少し大きめのパディングを持たせます */
+            padding: 25px 15px; 
         }
 
         .form-container {
             max-width: 480px;
             width: 100%;
+            max-height: 100%; /* 外枠の高さに絶対に合わせる */
             background: #ffffff;
             border: 3px solid var(--primary-pink);
             border-radius: 30px;
             box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
             padding: 30px 20px;
             box-sizing: border-box;
+            
+            /* ✨ ここが最重要ポイント！ */
+            overflow-y: auto; /* はみ出たフォーム項目は、この白いカード内だけでスクロールさせる */
+            -webkit-overflow-scrolling: touch; /* スマホでのスクロールをなめらかにする */
         }
 
         .scroll-down {
@@ -231,7 +245,7 @@
 <div style="
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 5; 
     pointer-events: none;
     border: 10px solid transparent;
     border-image: linear-gradient(to top, #ff4b4b, #ffa500, #fff000, #98fb98, #87ceeb, #ffb7c5, #e0b0ff) 1;
