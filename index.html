@@ -442,34 +442,6 @@
                 <textarea name="allergy" rows="5" class="textarea-dots"></textarea>
             </div>
 
-            <!-- お祝い画像（実際のファイル選択とプレビューを実装） -->
-            <div class="form-group">
-                <div class="label-container">
-                    <span class="label-text">お祝い画像</span>
-                </div>
-                <div class="upload-container">
-                    <!-- 隠しインプット（複数、画像のみ許可） -->
-                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
-                    
-                    <div class="upload-box" id="uploadBox">
-                        <div class="upload-icon">📷</div>
-                        <div class="upload-text">画像を<br>アップロード</div>
-                    </div>
-                    <div class="upload-box" onclick="alert('テンプレート機能は現在準備中です！')">
-                        <div class="upload-icon">🎨</div>
-                        <div class="upload-text">テンプレート<br>画像から選ぶ</div>
-                    </div>
-                </div>
-                
-                <!-- 選択された画像のプレビューエリア -->
-                <div class="preview-container" id="previewContainer"></div>
-
-                <div class="upload-note">
-                    ※10枚までアップロード可能<br>
-                    ※対応している画像の種類：JPG形式、PNG形式、GIF形式<br>
-                    （ファイルサイズ：1ファイル15MBまで）
-                </div>
-            </div>
 
             <button type="submit" id="submitBtn" class="submit-btn">招待状に回答する</button>
         </form>
@@ -494,54 +466,6 @@
         }
     });
 
-    // 2. お祝い画像の選択＆プレビュー処理
-    const uploadBox = document.getElementById('uploadBox');
-    const fileInput = document.getElementById('fileInput');
-    const previewContainer = document.getElementById('previewContainer');
-    let selectedFiles = []; // 選択されたファイルを保持する配列
-
-    uploadBox.addEventListener('click', () => fileInput.click());
-
-    fileInput.addEventListener('change', function() {
-        const files = Array.from(this.files);
-        
-        // 10枚制限のチェック
-        if (selectedFiles.length + files.length > 10) {
-            alert('画像は最大10枚まで選択できます。');
-            return;
-        }
-
-        files.forEach(file => {
-            if (!file.type.startsWith('image/')) return;
-            if (file.size > 15 * 1024 * 1024) {
-                alert(`${file.name} はサイズが15MBを超えているため選択できません。`);
-                return;
-            }
-
-            selectedFiles.push(file);
-
-            // プレビュー用のHTML要素を生成
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const item = document.createElement('div');
-                item.className = 'preview-item';
-                item.innerHTML = `
-                    <img src="${e.target.result}">
-                    <div class="preview-remove">×</div>
-                `;
-                
-                // 削除ボタンの挙動
-                item.querySelector('.preview-remove').addEventListener('click', () => {
-                    const index = selectedFiles.indexOf(file);
-                    if (index > -1) selectedFiles.splice(index, 1);
-                    item.remove();
-                });
-
-                previewContainer.appendChild(item);
-            };
-            reader.readAsDataURL(file);
-        });
-    });
 
     // 3. GAS通信およびデータ送信処理
     document.getElementById('invitationForm').addEventListener('submit', async function(e) {
